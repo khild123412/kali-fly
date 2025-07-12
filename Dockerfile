@@ -1,14 +1,20 @@
 FROM kalilinux/kali-rolling
 
-RUN apt update && apt install -y openssh-server sudo curl
+# Update and install OpenSSH
+RUN apt update && apt install -y openssh-server sudo
 
-RUN useradd -m fly && echo "fly:flypass" | chpasswd && adduser fly sudo
+# Create SSH run directory (no error if already exists)
+RUN mkdir -p /var/run/sshd
 
-RUN mkdir /var/run/sshd
+# Set root password
+RUN echo 'root:toor' | chpasswd
 
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+# Allow root login and password authentication
+RUN sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
+# Expose SSH port
 EXPOSE 22
 
+# Start SSH daemon
 CMD ["/usr/sbin/sshd", "-D"]
