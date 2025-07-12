@@ -1,8 +1,9 @@
 app = "kali-fly"
-primary_region = "cdg"
 
 [build]
-  dockerfile = "Dockerfile"
+
+[env]
+  HOSTNAME = "fly.io"
 
 [[services]]
   internal_port = 22
@@ -10,3 +11,10 @@ primary_region = "cdg"
 
   [[services.ports]]
     port = 22
+
+  [[services.tcp_checks]]
+    interval = "10s"
+    timeout = "2s"
+  [[services.concurrency]]
+    hard_limit = 25
+    soft_limit = 20
