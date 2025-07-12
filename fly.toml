@@ -1,0 +1,14 @@
+app = "kali-fly"
+
+[build]
+  image = "Dockerfile"
+
+[env]
+  PORT = "22"
+
+[[services]]
+  internal_port = 22
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 22
