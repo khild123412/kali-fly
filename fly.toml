@@ -1,10 +1,8 @@
 app = "kali-fly"
+primary_region = "cdg"
 
 [build]
-  image = "Dockerfile"
-
-[env]
-  PORT = "22"
+  dockerfile = "Dockerfile"
 
 [[services]]
   internal_port = 22
